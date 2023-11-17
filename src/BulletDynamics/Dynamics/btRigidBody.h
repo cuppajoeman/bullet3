@@ -48,14 +48,24 @@ enum btRigidBodyFlags
 	BT_ENABLE_GYROPSCOPIC_FORCE = BT_ENABLE_GYROSCOPIC_FORCE_IMPLICIT_BODY,
 };
 
-///The btRigidBody is the main class for rigid body objects. It is derived from btCollisionObject, so it keeps a pointer to a btCollisionShape.
-///It is recommended for performance and memory use to share btCollisionShape objects whenever possible.
-///There are 3 types of rigid bodies:
-///- A) Dynamic rigid bodies, with positive mass. Motion is controlled by rigid body dynamics.
-///- B) Fixed objects with zero mass. They are not moving (basically collision objects)
-///- C) Kinematic objects, which are objects without mass, but the user can move them. There is one-way interaction, and Bullet calculates a velocity based on the timestep and previous and current world transform.
-///Bullet automatically deactivates dynamic rigid bodies, when the velocity is below a threshold for a given time.
-///Deactivated (sleeping) rigid bodies don't take any processing time, except a minor broadphase collision detection impact (to allow active objects to activate/wake up sleeping objects)
+/**
+ * \brief btRigidBody represents a physical body that does not deform.
+ *
+ * Use Cases:
+ * - A) Dynamic rigid bodies, with positive mass. Motion is controlled by rigid body dynamics.
+ *   - Ex) A bullet, flying through the air
+ * - B) Fixed objects with zero mass. They are not moving (basically collision objects)
+ *   - Ex) A wall of a building
+ * - C) Kinematic objects, which are objects without mass, but the user can move them. 
+ *   There is one-way interaction, and Bullet calculates a velocity based on the timestep and previous and current world transform.
+ *   - Ex) A player that is controlled via keyboard and mouse input
+ *
+ * Notes:
+ * - It is derived from btCollisionObject, so it keeps a pointer to a btCollisionShape.
+ * - It is recommended for performance and memory use to share btCollisionShape objects whenever possible.
+ * - Bullet automatically deactivates dynamic rigid bodies, when the velocity is below a threshold for a given time.
+ * - Deactivated (sleeping) rigid bodies don't take any processing time, except a minor broadphase collision detection impact (to allow active objects to activate/wake up sleeping objects)
+ */
 class btRigidBody : public btCollisionObject
 {
 	btMatrix3x3 m_invInertiaTensorWorld;
